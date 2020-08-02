@@ -21,3 +21,23 @@ class CleanText(BaseEstimator, TransformerMixin):
   def to_lower(self, input_text):
     return input_text.lower()
  
+def remove_stopwords(self, input_text):
+    stopwords_list = stopwords.words('english')
+    #Some words which might indicate a certain sentiment are kept via a whitelist
+    whitelist = ["n't", "not", "no"]
+    words = input_text.split()
+    clean_words = [word for word in words if (word not in stopwords_list or word in whitelist) and len(word) > 1]
+    return " ".join(clean_words)
+
+  def stremming(self, input_text):
+    porter = PorterStemmer()
+    words = input_text.split()
+    stemmed_words = [porter.stem(word) for word in words]
+    return " ".join(stemmed_words)
+
+  def fit(self, X, **fit_params):
+    return self
+
+  def transform(self, X, **transform_params):
+    clean_X = X.apply(self.remove_mentions).apply(self.remove_urls).apply(self.emoji_oneword).apply(self.remove_punctuation).apply(self.remove_digits)
+    return clean_X
