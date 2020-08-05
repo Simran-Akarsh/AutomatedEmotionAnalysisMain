@@ -1,23 +1,32 @@
-class CleanText(BaseEstimator, TransformerMixin):
-  def remove_mentions(self, input_text):
-    return re.sub(r'@\w+', ' ', input_text)
-
-  def remove_urls(self, input_text):
-    return re.sub(r'http.?://[^\s]+[\s]?', ' ', input_text)
-
-  def emoji_oneword(self, input_text):
-    #By compressing the underscore, the emoji is kept as one word
-    return input_text.replace('_', ' ')
-
-  def remove_punctuation(self, input_text):
-    #Make translation table
-    punct = string.punctuation
-    trantab = str.maketrans(punct, len(punct)*' ') #Every punctuation symbol will be replaced by a space
-    return input_text.translate(trantab)
-
-  def remove_digits(self, input_text):
-    return re.sub('\d+', ' ', input_text)
-
-  def to_lower(self, input_text):
-    return input_text.lower()
- 
+!pip3 install emoji
+import numpy as np
+import pandas as pd
+pd.set_option('display.max_colwidth', -1)
+from time import time
+import re
+import string
+import os
+import emoji
+from pprint import pprint
+import collections
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set(style="darkgrid")
+sns.set(font_scale=1.3)
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.metrics import classification_report
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.externals import joblib
+import gensim
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+import warnings
+warnings.filterwarnings('ignore')
+np.random.seed(37)
