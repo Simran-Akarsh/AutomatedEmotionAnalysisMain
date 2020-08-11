@@ -1,4 +1,4 @@
-Class ColumExtractor(TransformerMixin, BaseEstimator):
+class ColumExtractor(TransformerMixin, BaseEstimator):
   def __init__(self,cols):
     self.cols = cols
   def transform(self, X, **transform_params):
