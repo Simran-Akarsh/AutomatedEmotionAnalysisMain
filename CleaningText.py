@@ -1,13 +1,13 @@
 class CleanText(BaseEstimator, TransformerMixin):
   def remove_mentions(self, input_text):
-    return re.sub(r'@\w+', ' ', input_text)
+    return re.sub(r'@\w+', '', input_text)
 
   def remove_urls(self, input_text):
-    return re.sub(r'http.?://[^\s]+[\s]?', ' ', input_text)
+    return re.sub(r'http.?://[^\s]+[\s]?', '', input_text)
 
   def emoji_oneword(self, input_text):
     #By compressing the underscore, the emoji is kept as one word
-    return input_text.replace('_', ' ')
+    return input_text.replace('_', '')
 
   def remove_punctuation(self, input_text):
     #Make translation table
@@ -16,7 +16,7 @@ class CleanText(BaseEstimator, TransformerMixin):
     return input_text.translate(trantab)
 
   def remove_digits(self, input_text):
-    return re.sub('\d+', ' ', input_text)
+    return re.sub('\d+', '', input_text)
 
   def to_lower(self, input_text):
     return input_text.lower()
@@ -35,7 +35,7 @@ def remove_stopwords(self, input_text):
     stemmed_words = [porter.stem(word) for word in words]
     return " ".join(stemmed_words)
 
-  def fit(self, X, **fit_params):
+  def fit(self, X, y=None, **fit_params):
     return self
 
   def transform(self, X, **transform_params):
