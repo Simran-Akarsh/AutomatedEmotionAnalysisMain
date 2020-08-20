@@ -1,10 +1,9 @@
-import io
-from google.colab import files
+emotions_csv = files.upload()
+emotions_train = pd.read_csv(io.BytesIO(emotions_csv['text_emotion.csv']))
+emotions_train = emotions_train.reindex(np.random.permutation(emotions_train.index))
+emotions_train = emotions_train[['content','sentiment']]
+emotion_file = files.upload()
+emotion_file = open('emotions.txt',encoding='utf-8').read()
 
-train_tsv = files.upload()
-airlines_train = pd.read_csv(io.BytesIO(train_tsv['Tweets.csv']))
-airlines_train = airlines_train.reindex(np.random.permutation(airline_train.index))
-airlines_train = airlines_train[['text', 'airline_sentiment']]
-
-sns.factorplot(x="airline_sentiment", data=airlines_train, kind="count", size=6, aspect=1.5, palette="GnBu_r")
+sns.factorplot(x="sentiment", data=emotions_train, kind="count", size=10, aspect=1.5, palette="GnBu_r")
 plt.show();
